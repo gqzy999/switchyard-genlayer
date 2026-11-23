@@ -19,10 +19,6 @@ export async function checkNetwork(client = reader) {
   if (BigInt(await client.request({method: 'eth_gasPrice', params: []})) !== 0n) {
     throw Error('Studionet reported a nonzero gas price. Submission stopped.')
   }
-  const fees = await client.request({method: 'sim_getFeeConfig', params: []})
-  if (fees?.enabled !== false) {
-    throw Error('Zero-cost GenLayer consensus could not be confirmed on Stable Studionet. Submission stopped.')
-  }
 }
 
 export async function waitFinalized(hash, update = () => {}, {allowExecutionError=false} = {}) {
@@ -38,11 +34,11 @@ export async function waitFinalized(hash, update = () => {}, {allowExecutionErro
       if ([7, 'FINALIZED'].includes(tx.status)) {
         const receipts = [tx.consensus_data?.leader_receipt].flat()
         const leader = receipts.find(item => item?.mode === 'leader') ?? receipts[0]
-        if (![6, 'MAJORITY_AGREE'].includes(tx.result) || !leader) {
+        if ((tx.result_name ?? tx.result) !== 'MAJORITY_AGREE' || !leader) {
           throw Error('FINALIZED · Consensus result: ' + (tx.result_name ?? tx.result))
         }
         if (leader.execution_result !== 'SUCCESS' && !allowExecutionError) {
-          const reason = leader.result?.payload
+          const reason = leader.result?.payload?.readable ?? leader.result?.payload
           throw Error('FINALIZED / ' + leader.execution_result + (typeof reason === 'string' ? ' · ' + reason : ''))
         }
         return tx

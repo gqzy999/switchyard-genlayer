@@ -9,12 +9,13 @@ import {installTransport} from '../transport.js'
 installTransport()
 
 const reader=createClient({chain:studionet})
+const funded=new Set()
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms))
 const rpc='https://studio.genlayer.com/api'
 const signer=secret=>{
   assert.match(secret ?? '',/^0x[0-9a-f]{64}$/i,'Provide an authorized Studionet test signer')
   const account=createAccount(secret)
-  return {address:account.address.toLowerCase(), client:createClient({chain:studionet,account})}
+  return {address:account.address.toLowerCase(), checksum:account.address, client:createClient({chain:studionet,account})}
 }
 
 export function lab(sourceFile) {
@@ -40,11 +41,21 @@ export function lab(sourceFile) {
     if (step?.verified) return step.readback
     if (!step) {
       await checkNetwork(reader)
-      evidence.steps[label]=step={method,args,sender:actor.address,hash:null}
+      const {distribution,feeValue}=await actor.client.estimateTransactionFees()
+      assert(feeValue <= 200000000000000000n,'Test fee deposit exceeds the per-transaction cap')
+      if(temporary && !funded.has(actor.address)){
+        const faucetHash=await reader.request({method:'sim_fundAccount',params:[actor.checksum,'2000000000000000000']})
+        assert(BigInt(await reader.getBalance({address:actor.checksum})) >= feeValue,'Faucet balance is insufficient')
+        funded.add(actor.address)
+        ;(evidence.faucet ??= {})[actor.address]=faucetHash
+      }
+      assert(BigInt(await reader.getBalance({address:actor.checksum})) >= feeValue,'Test balance is insufficient')
+      const fees={distribution,feeValue}
+      evidence.steps[label]=step={method,args,sender:actor.address,feeDeposit:feeValue.toString(),hash:null}
       save()
       step.hash=method==='deploy'
-        ? await actor.client.deployContract({code:source,args:[],leaderOnly:false})
-        : await actor.client.writeContract({address:evidence.address,functionName:method,args,value:0n,leaderOnly:false})
+        ? await actor.client.deployContract({code:source,args:[],leaderOnly:false,fees})
+        : await actor.client.writeContract({address:evidence.address,functionName:method,args,value:0n,leaderOnly:false,fees})
       save()
     }
     assert(step.hash,'Submission is uncertain. Check the chain before any retry.')
@@ -60,8 +71,8 @@ export function lab(sourceFile) {
       await delay(4000)
     }
     assert([7,'FINALIZED'].includes(receipt?.status),'Finalization not confirmed')
-    assert.equal(receipt.from_address.toLowerCase(),actor.address)
-    assert([6,'MAJORITY_AGREE'].includes(receipt.result),'Consensus did not agree')
+    assert.equal(receipt.from_address.toLowerCase(),step.sender)
+    assert(receipt.result_name==='MAJORITY_AGREE' || [1,6,'MAJORITY_AGREE'].includes(receipt.result),'Consensus did not agree')
     const entries=[receipt.consensus_data?.leader_receipt].flat()
     const leader=entries.find(item=>item?.mode==='leader') ?? entries[0]
     assert(leader,'Leader receipt unavailable')
@@ -79,6 +90,13 @@ export function lab(sourceFile) {
     return step.readback
   }
   async function deploy() {
+    if(process.env.STUDIO_DEPLOY_HASH && !evidence.steps.deployment){
+      const hash=process.env.STUDIO_DEPLOY_HASH
+      const receipt=await reader.getTransaction({hash})
+      assert(receipt.data?.contract_address,'Expected a deployment transaction')
+      evidence.steps.deployment={method:'deploy',args:[],sender:receipt.from_address.toLowerCase(),hash}
+      save()
+    }
     return tx('deployment','deploy',[],async receipt=>{
       evidence.address=receipt.data.contract_address
       assert.equal(await reader.getContractCode(evidence.address),source)

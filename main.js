@@ -1,8 +1,8 @@
 import './style.css'
 import {createAccount,createClient,generatePrivateKey} from 'genlayer-js'
-import {isAddress} from 'viem'
+import {formatEther,isAddress} from 'viem'
 import deployment from './deployment.json'
-import {chain,rpc,explorer,checkNetwork,readMatch,waitFinalized} from './chain.js'
+import {chain,rpc,explorer,reader,checkNetwork,readMatch,waitFinalized} from './chain.js'
 
 const ui = Object.fromEntries([...document.querySelectorAll('[id]')].map(node=>[node.id,node]))
 const temporary = new Map()
@@ -94,12 +94,16 @@ async function transact(method,args,key){
   await checkNetwork()
   if(!signer.local) await changeNetwork()
   if(actor!==signer) throw Error('Wallet changed. Review the action again.')
-  if(!confirm('Sign '+method.replaceAll('_',' ')+' as '+signer.address+' on Stable Studionet?')) return
+  const {distribution,feeValue}=await reader.estimateTransactionFees()
+  if(feeValue>200000000000000000n) throw Error('Test fee deposit exceeds 0.2 GEN.')
+  if(BigInt(await reader.getBalance({address:signer.address}))<feeValue) throw Error('Insufficient Studionet test GEN for the consensus deposit.')
+  if(actor!==signer) throw Error('Wallet changed. Review the action again.')
+  if(!confirm('Sign '+method.replaceAll('_',' ')+' on Stable Studionet with a maximum deposit of '+formatEther(feeValue)+' test GEN?')) return
   ui.status.textContent='Waiting for signature and submission'
   ui.receipt.hidden=true
   const client=createClient({chain,account:signer.local ?? signer.address,...(signer.local ? {} : {provider})})
   let hash
-  try{ hash=await client.writeContract({address,functionName:method,args,value:0n,leaderOnly:false}) }
+  try{ hash=await client.writeContract({address,functionName:method,args,value:0n,leaderOnly:false,fees:{distribution,feeValue}}) }
   catch(error){
     const failure=error.message.match(/EVM tx (0x[a-f0-9]{64})/i)?.[1]
     if(failure) showReceipt(failure)
@@ -135,8 +139,13 @@ ui.open.onsubmit=work(()=>{
 })
 ui.dispatch.onsubmit=work(()=>transact('dispatch',[match.key,ui.instruction.value],match.key))
 ui.resolve.onclick=work(()=>transact('resolve',[match.key],match.key))
-ui.temporary.onclick=work(()=>{
+ui.temporary.onclick=work(async()=>{
+  await checkNetwork()
   const local=createAccount(generatePrivateKey())
+  ui.status.textContent='Requesting Studionet faucet funds'
+  await reader.request({method:'sim_fundAccount',params:[local.address,'2000000000000000000']})
+  if(BigInt(await reader.getBalance({address:local.address}))===0n) throw Error('Faucet funding is not visible yet.')
+  ui.status.textContent='Temporary Studionet wallet funded'
   actor={address:local.address,local}
   temporary.set(local.address,actor)
   ui.wallet.add(new Option(local.address,local.address))
@@ -176,7 +185,12 @@ if(deployment.address){
 for(const example of deployment.examples ?? []){
   const button=document.createElement('button')
   button.textContent=example.title
-  button.onclick=work(()=>{ui.key.value=example.key;return load(ui.contract.value,example.key)})
+  button.onclick=work(async()=>{
+    ui.contract.value=deployment.address
+    ui.key.value=example.key
+    await load(deployment.address,example.key)
+    if(example.hash) showReceipt(example.hash)
+  })
   ui.examples.append(button)
 }
 if(!deployment.address) ui.status.textContent='No verified deployment is configured. Enter an independently deployed contract to connect.'

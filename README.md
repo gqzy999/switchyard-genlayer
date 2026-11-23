@@ -25,8 +25,10 @@ genvm-lint check contracts/switchyard.py
 STUDIO_SIGNERS=ephemeral npm run live
 ```
 
-The SDK pin is declared in the contract header. The live script targets only chain 61999, checks both the EVM gas price and the GenLayer consensus fee policy, deploys the source, verifies on-chain source equality, and checks clear, collision, and duplicate dispatch flows against finalized state reads. The Python unit harness simulates callbacks to test behavior locally.
+The SDK pin is declared in the contract header. The live script targets only chain 61999, checks the EVM gas price and estimates a bounded GenLayer consensus deposit, deploys the source, verifies on-chain source equality, and checks clear, collision, and duplicate dispatch flows against finalized state reads. The Python unit harness simulates callbacks to test behavior locally.
 
-The current deployment attempt reverted before GenLayer consensus with `FeesDistributionMissing`. Its EVM receipt is in [deployment-attempt.json](evidence/deployment-attempt.json) and the lint output is in [genvm-lint.txt](evidence/genvm-lint.txt). The workbench has no default contract or public examples until live verification succeeds.
+The original SDK 1.1.8 deployment attempt reverted before GenLayer consensus with `FeesDistributionMissing`. Its EVM receipt is in [deployment-attempt.json](evidence/deployment-attempt.json) and the lint output is in [genvm-lint.txt](evidence/genvm-lint.txt).
 
-The Stable Studionet RPC reported zero EVM gas price and an enabled GenLayer fee policy. Its advertised default consensus fee deposit was 78852000002588 base units. Both the workbench and the acceptance script stop before signing unless zero-cost submission can be confirmed. The advertised deposit is a quote, not an observed charge.
+Stable Studionet currently charges consensus fees even though the EVM gas price is zero. The workbench shows the estimated fee deposit before signing and caps it at 0.2 test GEN per transaction. Temporary wallets use the Stable Studionet faucet and are kept in memory. Connected wallet users can fund their test wallet through Studio's account selector.
+
+The acceptance script generates two temporary signers when `STUDIO_SIGNERS=ephemeral` is set. To verify a deployment and exercise new matches on it, pass its GenLayer transaction hash as `STUDIO_DEPLOY_HASH`. Use a new `STUDIO_EVIDENCE_PATH` when starting a new ephemeral run.
