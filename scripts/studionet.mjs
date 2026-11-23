@@ -4,6 +4,7 @@ import {dirname} from 'node:path'
 import {existsSync, readFileSync, writeFileSync, mkdirSync} from 'node:fs'
 import {createAccount,createClient,generatePrivateKey} from 'genlayer-js'
 import {studionet} from 'genlayer-js/chains'
+import {checkNetwork} from '../chain.js'
 import {installTransport} from '../transport.js'
 installTransport()
 
@@ -38,8 +39,7 @@ export function lab(sourceFile) {
     let step=evidence.steps[label]
     if (step?.verified) return step.readback
     if (!step) {
-      assert.equal(Number(await reader.getChainId()),61999)
-      assert.equal(BigInt(await reader.request({method:'eth_gasPrice',params:[]})),0n)
+      await checkNetwork(reader)
       evidence.steps[label]=step={method,args,sender:actor.address,hash:null}
       save()
       step.hash=method==='deploy'

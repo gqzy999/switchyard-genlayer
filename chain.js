@@ -19,6 +19,10 @@ export async function checkNetwork(client = reader) {
   if (BigInt(await client.request({method: 'eth_gasPrice', params: []})) !== 0n) {
     throw Error('Studionet reported a nonzero gas price. Submission stopped.')
   }
+  const fees = await client.request({method: 'sim_getFeeConfig', params: []})
+  if (fees?.enabled !== false) {
+    throw Error('Zero-cost GenLayer consensus could not be confirmed on Stable Studionet. Submission stopped.')
+  }
 }
 
 export async function waitFinalized(hash, update = () => {}, {allowExecutionError=false} = {}) {
