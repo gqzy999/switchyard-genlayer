@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Switchyard · Cooperative dispatch</title></head>
+<body>
+<header><strong>SWITCHYARD</strong><span>STABLE STUDIONET / 61999</span></header>
+<main>
+  <section class="intro"><h1>Two trains.<br>One shared yard.</h1><p>Sign separate dispatch plans. Clear the yard by bringing both trains to the opposite terminal without occupying the same station or swapping along a track.</p></section>
+  <div class="desk">
+    <section class="signal"><h2>Dispatch board</h2>
+      <div class="yard" aria-label="Diamond track from West and East through North and South">
+        <span class="rail"></span><div class="station" data-stop="W">W</div><div class="station" data-stop="N">N</div><div class="station" data-stop="E">E</div><div class="station" data-stop="S">S</div>
+      </div>
+      <div class="train-key"><span>● West train</span><span>● East train</span></div>
+      <label>Replay tick <input id="tick" type="range" min="0" max="0" value="0"></label>
+      <p id="frame">Start · West at W, East at E</p><p id="decision"></p>
+      <ol id="plans" aria-label="Signed dispatches"></ol>
+    </section>
+    <section class="console"><h2>Signal console</h2>
+      <p class="muted">W and E connect through N or S. Each train can move once per tick or hold. The run ends when both arrive or the first fault occurs.</p>
+      <label>Contract <input id="contract" placeholder="0x…"></label>
+      <div id="examples" class="buttons"></div>
+      <form id="lookup"><label>Match reference <input id="key" required placeholder="0x…/match"></label><button>Load finalized match</button></form>
+      <details><summary>Player controls</summary>
+        <div class="buttons"><button id="temporary">Add test wallet</button><button id="connect">Connect injected wallet</button><button id="disconnect">Reset wallets</button></div>
+        <label>Temporary wallet <select id="wallet"></select></label><p id="actor" class="muted">Public read mode</p>
+        <form id="open"><label>Match ID <input id="slug" required minlength="3" maxlength="32"></label><label>East player address <input id="guest" required pattern="0x[0-9A-Fa-f]{40}"></label><button>Open match</button></form>
+        <form id="dispatch" hidden><label>Three-tick plan <textarea id="instruction" required minlength="12" maxlength="240" rows="3" placeholder="Tick 1: go to N. Tick 2: go to E. Tick 3: wait."></textarea></label><button>Sign dispatch</button></form>
+        <button id="resolve" hidden>Resolve signed plans</button>
+      </details>
+      <p id="status" role="status">Ready</p><a id="receipt" hidden target="_blank" rel="noopener">Latest transaction ↗</a><ul id="evidence"></ul>
+    </section>
+  </div>
+</main><script type="module" src="/main.js"></script>
+</body></html>

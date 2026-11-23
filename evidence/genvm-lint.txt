@@ -1,0 +1,8 @@
+genvm-lint, version 0.11.0
+c50d9ebfd252cc03b241a3dfcb9bc7c26e93427e473ced8f589862ea6d172e04  contracts/switchyard.py
+
+✓ Lint passed (3 checks)
+✓ Validation passed
+  Contract: Switchyard
+  Methods: 4 (1 view, 3 write)
+  ℹ py-genlayer: a newer runner is available (1zr6nqk597d97kg0dyxg0shhrykx5v02zjgnyrajapy4wlqvfvwh). See https://github.com/genlayerlabs/genvm/releases for changes.
