@@ -1,0 +1,72 @@
+{
+  "chainId": 61999,
+  "address": "0x7D7C68ce7D69897Bcb9f6b1299242D79eE824ae3",
+  "key": "0x87954bfd14399e99cb7f6a212611d9f691024332/browser-smoke",
+  "steps": {
+    "open_match": {
+      "hash": "0x7977e7932e83744e68a1a0bf53be2989211776f06f26ae6eaf139de4dc92a29a",
+      "sender": "0x87954bfd14399e99cb7f6a212611d9f691024332",
+      "status": "FINALIZED",
+      "execution": "SUCCESS"
+    },
+    "west_dispatch": {
+      "hash": "0xf0ece3d0b8a2d950956541a00f308d0e9040ae43226510a2a0e6737c6c8304b4",
+      "sender": "0x87954bfd14399e99cb7f6a212611d9f691024332",
+      "status": "FINALIZED",
+      "execution": "SUCCESS"
+    },
+    "east_dispatch": {
+      "hash": "0x084a2d63d513cf275eff930c08086eb1094d219330d861bf07b41a8b50aa57dc",
+      "sender": "0x857b4eb2bf89e33d9ccf980beaaf3f8c36ca4833",
+      "status": "FINALIZED",
+      "execution": "SUCCESS"
+    },
+    "resolve": {
+      "hash": "0xe19c5a7b375e9e22ecdd949123971deb5f7dc82980c85c4b010ca77c479c5497",
+      "sender": "0x857b4eb2bf89e33d9ccf980beaaf3f8c36ca4833",
+      "status": "FINALIZED",
+      "execution": "SUCCESS"
+    }
+  },
+  "readback": {
+    "frames": [
+      [
+        "W",
+        "E"
+      ],
+      [
+        "S",
+        "N"
+      ],
+      [
+        "E",
+        "W"
+      ]
+    ],
+    "instructions": [
+      "Tick 1: go to S. Tick 2: go to E. Tick 3: wait.",
+      "Tick 1: go to N. Tick 2: go to W. Tick 3: wait."
+    ],
+    "key": "0x87954bfd14399e99cb7f6a212611d9f691024332/browser-smoke",
+    "plans": [
+      [
+        "S",
+        "E",
+        "WAIT"
+      ],
+      [
+        "N",
+        "W",
+        "WAIT"
+      ]
+    ],
+    "players": [
+      "0x87954bfd14399e99cb7f6a212611d9f691024332",
+      "0x857b4eb2bf89e33d9ccf980beaaf3f8c36ca4833"
+    ],
+    "reason": "BOTH_ARRIVED",
+    "resolved_by": "0x857b4eb2bf89e33d9ccf980beaaf3f8c36ca4833",
+    "state": "CLEARED",
+    "stopped_at": 2
+  }
+}

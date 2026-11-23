@@ -23,7 +23,10 @@ for(const [slug,second,end,reason] of [
     return after
   },{expectedError:'DISPATCH_ALREADY_SIGNED'})
   await tx(slug+'-second','dispatch',[key,second],()=>state('READY'),{actor:delegate})
-  const result=await tx(slug+'-resolve','resolve',[key],()=>state(end))
-  assert.equal(result.reason,reason)
-  assert.deepEqual(result.frames,end==='CLEARED'?[['W','E'],['N','S'],['E','W']]:[['W','E']])
+  await tx(slug+'-resolve','resolve',[key],async()=>{
+    const result=await state(end)
+    assert.equal(result.reason,reason)
+    assert.deepEqual(result.frames,end==='CLEARED'?[['W','E'],['N','S'],['E','W']]:[['W','E']])
+    return result
+  })
 }

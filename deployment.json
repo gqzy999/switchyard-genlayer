@@ -1,5 +1,21 @@
 {
   "address": "0x7D7C68ce7D69897Bcb9f6b1299242D79eE824ae3",
-  "examples": [],
-  "hash": "0xb33ca04de9d4daa6e78db367c142d1df920228bf73985cf42a48eb85223518cf"
+  "hash": "0xb33ca04de9d4daa6e78db367c142d1df920228bf73985cf42a48eb85223518cf",
+  "examples": [
+    {
+      "title": "Split tracks \u00b7 cleared",
+      "key": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/split-tracks",
+      "hash": "0x34f96c086a9655c6067eea06f669b2f0d79f651ef234d214dda9aa34df9cd416"
+    },
+    {
+      "title": "Same station \u00b7 blocked",
+      "key": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/same-track",
+      "hash": "0x7a5eeb345051529c175923d6f985d8998f14d9a0978daedeb170268de36c98d1"
+    },
+    {
+      "title": "Reverse route \u00b7 cleared",
+      "key": "0x87954bfd14399e99cb7f6a212611d9f691024332/browser-smoke",
+      "hash": "0xe19c5a7b375e9e22ecdd949123971deb5f7dc82980c85c4b010ca77c479c5497"
+    }
+  ]
 }

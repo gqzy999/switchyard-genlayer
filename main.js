@@ -180,7 +180,17 @@ if(deployment.address){
   const contractLink=document.createElement('a')
   contractLink.href=explorer+'/address/'+deployment.address
   contractLink.textContent='View contract on Explorer'
-  ui.evidence.append(contractLink)
+  const item=document.createElement('li')
+  item.append(contractLink)
+  ui.evidence.append(item)
+  if(deployment.hash){
+    const row=document.createElement('li')
+    const link=document.createElement('a')
+    link.href=explorer+'/tx/'+deployment.hash
+    link.textContent='View finalized deployment'
+    row.append(link)
+    ui.evidence.append(row)
+  }
 }
 for(const example of deployment.examples ?? []){
   const button=document.createElement('button')

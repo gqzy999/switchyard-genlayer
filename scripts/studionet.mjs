@@ -9,7 +9,6 @@ import {installTransport} from '../transport.js'
 installTransport()
 
 const reader=createClient({chain:studionet})
-const funded=new Set()
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms))
 const rpc='https://studio.genlayer.com/api'
 const signer=secret=>{
@@ -20,6 +19,7 @@ const signer=secret=>{
 
 export function lab(sourceFile) {
   const source=readFileSync(sourceFile,'utf8')
+  const funded=new Set()
   const temporary=process.env.STUDIO_SIGNERS==='ephemeral'
   const owner=signer(temporary ? generatePrivateKey() : process.env.STUDIO_OWNER_KEY)
   const delegate=signer(temporary ? generatePrivateKey() : process.env.STUDIO_DELEGATE_KEY)
@@ -47,7 +47,8 @@ export function lab(sourceFile) {
         const faucetHash=await reader.request({method:'sim_fundAccount',params:[actor.checksum,'2000000000000000000']})
         assert(BigInt(await reader.getBalance({address:actor.checksum})) >= feeValue,'Faucet balance is insufficient')
         funded.add(actor.address)
-        ;(evidence.faucet ??= {})[actor.address]=faucetHash
+        evidence.faucet ??= {}
+        evidence.faucet[actor.address]=faucetHash
       }
       assert(BigInt(await reader.getBalance({address:actor.checksum})) >= feeValue,'Test balance is insufficient')
       const fees={distribution,feeValue}
@@ -72,7 +73,7 @@ export function lab(sourceFile) {
     }
     assert([7,'FINALIZED'].includes(receipt?.status),'Finalization not confirmed')
     assert.equal(receipt.from_address.toLowerCase(),step.sender)
-    assert(receipt.result_name==='MAJORITY_AGREE' || [1,6,'MAJORITY_AGREE'].includes(receipt.result),'Consensus did not agree')
+    assert.equal(receipt.result_name,'MAJORITY_AGREE','Consensus did not agree')
     const entries=[receipt.consensus_data?.leader_receipt].flat()
     const leader=entries.find(item=>item?.mode==='leader') ?? entries[0]
     assert(leader,'Leader receipt unavailable')

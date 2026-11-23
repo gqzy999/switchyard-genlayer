@@ -1,0 +1,317 @@
+{
+  "chainId": 61999,
+  "rpc": "https://studio.genlayer.com/api",
+  "sourceSha256": "c50d9ebfd252cc03b241a3dfcb9bc7c26e93427e473ced8f589862ea6d172e04",
+  "owner": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+  "delegate": "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1",
+  "steps": {
+    "deployment": {
+      "method": "deploy",
+      "args": [],
+      "sender": "0x717d17208fc7d5810bfe76582fe923ffe136f3bb",
+      "hash": "0xb33ca04de9d4daa6e78db367c142d1df920228bf73985cf42a48eb85223518cf",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "readback": {
+        "address": "0x7D7C68ce7D69897Bcb9f6b1299242D79eE824ae3",
+        "sourceVerified": true
+      },
+      "verified": true,
+      "feeDeposit": "100000000000010352"
+    },
+    "split-tracks-open": {
+      "method": "open_match",
+      "args": [
+        "split-tracks",
+        "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1"
+      ],
+      "sender": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+      "feeDeposit": "100000000000010352",
+      "hash": "0xdb83abdf652c8ab9b5845bf81c568f88c3c9af7f2131b4d63ab057dff53c5635",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "readback": {
+        "instructions": [
+          "",
+          ""
+        ],
+        "key": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/split-tracks",
+        "players": [
+          "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+          "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1"
+        ],
+        "state": "PLANNING"
+      },
+      "verified": true
+    },
+    "split-tracks-first": {
+      "method": "dispatch",
+      "args": [
+        "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/split-tracks",
+        "Tick 1: go to N. Tick 2: go to E. Tick 3: wait."
+      ],
+      "sender": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+      "feeDeposit": "100000000000010352",
+      "hash": "0xf6886ce49181a05904a64cfd4f0fa6def699f65d11ab11907e2eb339f5db5f2f",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "readback": {
+        "instructions": [
+          "Tick 1: go to N. Tick 2: go to E. Tick 3: wait.",
+          ""
+        ],
+        "key": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/split-tracks",
+        "players": [
+          "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+          "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1"
+        ],
+        "state": "PLANNING"
+      },
+      "verified": true
+    },
+    "duplicate-dispatch": {
+      "method": "dispatch",
+      "args": [
+        "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/split-tracks",
+        "Tick 1: go to N. Tick 2: go to E. Tick 3: wait."
+      ],
+      "sender": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+      "feeDeposit": "100000000000010352",
+      "hash": "0xc6505f6a21a695d51906eb66e66e0911269004da27d0da3734c01f816638ba36",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "ERROR",
+      "error": "{\"raw\":\"AURJU1BBVENIX0FMUkVBRFlfU0lHTkVE\",\"status\":\"rollback\",\"payload\":\"DISPATCH_ALREADY_SIGNED\"}",
+      "readback": {
+        "instructions": [
+          "Tick 1: go to N. Tick 2: go to E. Tick 3: wait.",
+          ""
+        ],
+        "key": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/split-tracks",
+        "players": [
+          "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+          "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1"
+        ],
+        "state": "PLANNING"
+      },
+      "verified": true
+    },
+    "split-tracks-second": {
+      "method": "dispatch",
+      "args": [
+        "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/split-tracks",
+        "Tick 1: go to S. Tick 2: go to W. Tick 3: wait."
+      ],
+      "sender": "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1",
+      "feeDeposit": "100000000000010352",
+      "hash": "0x9f5400e9792bcaf65a1d46b40ed4a23204a9eee3c3ec6f6b719d0eb0b04c3445",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "readback": {
+        "instructions": [
+          "Tick 1: go to N. Tick 2: go to E. Tick 3: wait.",
+          "Tick 1: go to S. Tick 2: go to W. Tick 3: wait."
+        ],
+        "key": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/split-tracks",
+        "players": [
+          "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+          "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1"
+        ],
+        "state": "READY"
+      },
+      "verified": true
+    },
+    "split-tracks-resolve": {
+      "method": "resolve",
+      "args": [
+        "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/split-tracks"
+      ],
+      "sender": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+      "feeDeposit": "100000000000010352",
+      "hash": "0x34f96c086a9655c6067eea06f669b2f0d79f651ef234d214dda9aa34df9cd416",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "readback": {
+        "frames": [
+          [
+            "W",
+            "E"
+          ],
+          [
+            "N",
+            "S"
+          ],
+          [
+            "E",
+            "W"
+          ]
+        ],
+        "instructions": [
+          "Tick 1: go to N. Tick 2: go to E. Tick 3: wait.",
+          "Tick 1: go to S. Tick 2: go to W. Tick 3: wait."
+        ],
+        "key": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/split-tracks",
+        "plans": [
+          [
+            "N",
+            "E",
+            "WAIT"
+          ],
+          [
+            "S",
+            "W",
+            "WAIT"
+          ]
+        ],
+        "players": [
+          "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+          "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1"
+        ],
+        "reason": "BOTH_ARRIVED",
+        "resolved_by": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+        "state": "CLEARED",
+        "stopped_at": 2
+      },
+      "verified": true
+    },
+    "same-track-open": {
+      "method": "open_match",
+      "args": [
+        "same-track",
+        "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1"
+      ],
+      "sender": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+      "feeDeposit": "100000000000010352",
+      "hash": "0x33c566267829c7dc3d80bfd6a955a8b26f3e712f3423e6dcd235ec1fafca323d",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "readback": {
+        "instructions": [
+          "",
+          ""
+        ],
+        "key": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/same-track",
+        "players": [
+          "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+          "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1"
+        ],
+        "state": "PLANNING"
+      },
+      "verified": true
+    },
+    "same-track-first": {
+      "method": "dispatch",
+      "args": [
+        "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/same-track",
+        "Tick 1: go to N. Tick 2: go to E. Tick 3: wait."
+      ],
+      "sender": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+      "feeDeposit": "100000000000010352",
+      "hash": "0xdbc881f3c9c8e49907462c081c8838c17a27f0bf36c45f888bd1958826b72ce8",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "readback": {
+        "instructions": [
+          "Tick 1: go to N. Tick 2: go to E. Tick 3: wait.",
+          ""
+        ],
+        "key": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/same-track",
+        "players": [
+          "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+          "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1"
+        ],
+        "state": "PLANNING"
+      },
+      "verified": true
+    },
+    "same-track-second": {
+      "method": "dispatch",
+      "args": [
+        "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/same-track",
+        "Tick 1: go to N. Tick 2: go to W. Tick 3: wait."
+      ],
+      "sender": "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1",
+      "feeDeposit": "100000000000010352",
+      "hash": "0xd2543459d07ac7199a3efac1d1b375231666d2a78ab7b9731f93abc8fe1ac845",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "readback": {
+        "instructions": [
+          "Tick 1: go to N. Tick 2: go to E. Tick 3: wait.",
+          "Tick 1: go to N. Tick 2: go to W. Tick 3: wait."
+        ],
+        "key": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/same-track",
+        "players": [
+          "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+          "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1"
+        ],
+        "state": "READY"
+      },
+      "verified": true
+    },
+    "same-track-resolve": {
+      "method": "resolve",
+      "args": [
+        "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/same-track"
+      ],
+      "sender": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+      "feeDeposit": "100000000000010352",
+      "hash": "0x7a5eeb345051529c175923d6f985d8998f14d9a0978daedeb170268de36c98d1",
+      "status": "FINALIZED",
+      "consensus": "MAJORITY_AGREE",
+      "execution": "SUCCESS",
+      "readback": {
+        "attempted": [
+          "N",
+          "N"
+        ],
+        "frames": [
+          [
+            "W",
+            "E"
+          ]
+        ],
+        "instructions": [
+          "Tick 1: go to N. Tick 2: go to E. Tick 3: wait.",
+          "Tick 1: go to N. Tick 2: go to W. Tick 3: wait."
+        ],
+        "key": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d/same-track",
+        "plans": [
+          [
+            "N",
+            "E",
+            "WAIT"
+          ],
+          [
+            "N",
+            "W",
+            "WAIT"
+          ]
+        ],
+        "players": [
+          "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+          "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1"
+        ],
+        "reason": "OCCUPANCY_CONFLICT",
+        "resolved_by": "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d",
+        "state": "BLOCKED",
+        "stopped_at": 1
+      },
+      "verified": true
+    }
+  },
+  "address": "0x7D7C68ce7D69897Bcb9f6b1299242D79eE824ae3",
+  "faucet": {
+    "0x851bdbe56f0fe6769647777e12bc5d11e8216c8d": "0xee8f68beb97aa8002ba659a7d657f4339067dfd831493fd13507df0243655233",
+    "0xcf36337e95fcbf1683cea0b6a23387db51ed9ad1": "0x4648f39fef0f130a7cefbf40f5464f5795690b01d7d8a6c62cef60f061ae5f33",
+    "0x717d17208fc7d5810bfe76582fe923ffe136f3bb": "0xec749ad81b4ff0c5de241ef96123429954cdca4d65062e4d15f3cc89264aff37"
+  }
+}

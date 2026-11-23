@@ -4,7 +4,7 @@ A two-player rail dispatch game. Two players control trains entering a shared ya
 
 ## Play
 
-1. Open the [workbench](https://gqzy999.github.io/switchyard-genlayer/) and enter a deployed Stable Studionet contract address.
+1. Open the [workbench](https://gqzy999.github.io/switchyard-genlayer/) with the default Stable Studionet deployment. Select a recorded match to inspect its replay without a wallet.
 2. The West player connects an injected wallet or creates a temporary test wallet, then opens a match and assigns East to a distinct wallet. Save the match reference displayed after finalization.
 3. Both players load the same reference and sign one explicit instruction each. For example, West can write “Tick 1: go to N. Tick 2: go to E. Tick 3: wait.” East can take S and then W to clear the yard, or take N on tick 1 to demonstrate a collision. Plans are visible after signing and cannot be edited. Temporary wallets disappear on page reload.
 4. Either player resolves the match after both dispatches are signed. The board rereads the finalized outcome and shows the accepted positions or the first rejected move.
@@ -22,6 +22,7 @@ npm ci
 npm test
 npm run build
 genvm-lint check contracts/switchyard.py
+npm run verify:live
 STUDIO_SIGNERS=ephemeral npm run live
 ```
 
@@ -32,3 +33,9 @@ The original SDK 1.1.8 deployment attempt reverted before GenLayer consensus wit
 Stable Studionet currently charges consensus fees even though the EVM gas price is zero. The workbench shows the estimated fee deposit before signing and caps it at 0.2 test GEN per transaction. Temporary wallets use the Stable Studionet faucet and are kept in memory. Connected wallet users can fund their test wallet through Studio's account selector.
 
 The acceptance script generates two temporary signers when `STUDIO_SIGNERS=ephemeral` is set. To verify a deployment and exercise new matches on it, pass its GenLayer transaction hash as `STUDIO_DEPLOY_HASH`. Use a new `STUDIO_EVIDENCE_PATH` when starting a new ephemeral run.
+
+## Stable Studionet cases
+
+The deployed contract and three finalized matches are linked from the workbench. The two CLI matches show both trains reaching their destinations and two trains requesting the same station. The browser match shows the reverse safe route, signed by two separate in-page wallets. A duplicate dispatch was rejected with `DISPATCH_ALREADY_SIGNED` and the finalized match snapshot stayed unchanged across that step in the acceptance run.
+
+[Chain acceptance](evidence/studionet.json) records the CLI transactions and readbacks. [Browser match](evidence/browser-match.json) records the four transactions submitted from the published workbench. Run `npm run verify:live` to independently check current RPC receipts, exact deployed source, and terminal match snapshots without a wallet.

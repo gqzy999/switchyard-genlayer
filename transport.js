@@ -17,7 +17,7 @@ export function installTransport() {
       b.params[0] = getAddress(b.params[0].toLowerCase());
     if (b.method === "gen_call" && b.params?.[0]?.to)
       b.params[0].to = getAddress(b.params[0].to.toLowerCase());
-    const read = !["eth_sendRawTransaction", "eth_sendTransaction"].includes(
+    const read = !["eth_sendRawTransaction", "eth_sendTransaction", "sim_fundAccount"].includes(
       b.method,
     );
     for (let tries = 0; ; tries++) {
