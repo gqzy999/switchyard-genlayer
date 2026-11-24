@@ -1,10 +1,12 @@
 # Switchyard
 
+**Live workbench:** [Open Switchyard](https://gqzy999.github.io/switchyard-genlayer/)
+
 A two-player rail dispatch game. Two players control trains entering a shared yard from opposite terminals. Each signs a three-tick dispatch. An Intelligent Contract records the instructions, uses independent validator interpretations, and fixes the outcome and replay on chain.
 
 ## Play
 
-1. Open the [workbench](https://gqzy999.github.io/switchyard-genlayer/) with the default Stable Studionet deployment. Select a recorded match to inspect its replay without a wallet.
+1. Select a recorded match to inspect its replay without a wallet.
 2. The West player connects an injected wallet or creates a temporary test wallet, then opens a match and assigns East to a distinct wallet. Save the match reference displayed after finalization.
 3. Both players load the same reference and sign one explicit instruction each. For example, West can write “Tick 1: go to N. Tick 2: go to E. Tick 3: wait.” East can take S and then W to clear the yard, or take N on tick 1 to demonstrate a collision. Plans are visible after signing and cannot be edited. Temporary wallets disappear on page reload.
 4. Either player resolves the match after both dispatches are signed. The board rereads the finalized outcome and shows the accepted positions or the first rejected move.
